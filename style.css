@@ -1,0 +1,14 @@
+form {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: 2em 2em 2em 2em;
+    width: 400px;
+}
+
+input,
+textarea,
+select {
+    width: 150px;
+    padding: 0px;
+    margin: 5px;
+}
