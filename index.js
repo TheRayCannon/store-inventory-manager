@@ -26,24 +26,7 @@ let stock = [{
     quality: 6
 }]
 
-
-
-stock.map(items => {
-    const inventoryDisplay = document.createElement("div")
-    inventoryDisplay.innerHTML = `
- <h3>Item:${items.item}</h3>
- <p>Sell in ${items.sellBy} Days</p>
- <p>Quality:${items.quality}</p>
-`
-    return inventoryDisplay
-}).forEach((inventoryDisplay) => {
-    inventoryBox.append(inventoryDisplay)
-})
-
-
-console.log(stock)
-
-
+mapIt(stock);
 
 addEventListener("submit", event => {
     event.preventDefault()
@@ -54,5 +37,21 @@ addEventListener("submit", event => {
         quality: formData.get("quality")
     }
     stock = [...stock, newItem]
-    return newItem
+    mapIt(stock)
 });
+
+
+function mapIt(stock) {
+    inventoryBox.innerHTML = ``
+    stock.map(items => {
+        const inventoryDisplay = document.createElement("div")
+        inventoryDisplay.innerHTML = `
+ <h3>Item:${items.item}</h3>
+ <p>Sell in ${items.sellBy} Days</p>
+ <p>Quality:${items.quality}</p>
+`
+        return inventoryDisplay
+    }).forEach((inventoryDisplay) => {
+        inventoryBox.append(inventoryDisplay)
+    })
+}
