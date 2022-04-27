@@ -1,5 +1,8 @@
 const form = document.querySelector("form")
 const inventoryBox = document.querySelector(".inventoryBox")
+const itemNameInput = document.querySelector("#item_name")
+
+
 let stock = [{
     item_name: "+5 Dexterity Vest",
     sellBy: 10,
@@ -32,22 +35,6 @@ let stock = [{
     category: "Conjured"
 }]
 
-function mapIt(stock) {
-    inventoryBox.innerHTML = ``
-    stock.map(items => {
-        const inventoryDisplay = document.createElement("div")
-        inventoryDisplay.innerHTML = `
- <h3>Item:${items.item_name}</h3>
- <p>Sell in ${items.sellBy} Days</p>
- <p>Quality:${items.quality}</p>
- <p>Category:${items.category}</p>
-`
-        return inventoryDisplay
-    }).forEach((inventoryDisplay) => {
-        inventoryBox.append(inventoryDisplay)
-    })
-}
-
 mapIt(stock);
 
 addEventListener("submit", event => {
@@ -64,8 +51,36 @@ addEventListener("submit", event => {
     findCategory(newItem)
     mapIt(stock)
     return newItem
-
 });
+
+
+itemNameInput.addEventListener("input", () => {
+    const qualityChecks = form.querySelector(".quality")
+    if (itemNameInput.value.includes("Sulfuras")) {
+        qualityChecks.value = 80;
+        qualityChecks.max = 80;
+        qualityChecks.min = 80;
+    } else {
+        qualityChecks.max = 50
+        qualityChecks.min = 0
+    }
+})
+
+function mapIt(stock) {
+    inventoryBox.innerHTML = ``
+    stock.map(items => {
+        const inventoryDisplay = document.createElement("div")
+        inventoryDisplay.innerHTML = `
+ <h3>Item:${items.item_name}</h3>
+ <p>Sell in ${items.sellBy} Days</p>
+ <p>Quality:${items.quality}</p>
+ <p>Category:${items.category}</p>
+`
+        return inventoryDisplay
+    }).forEach((inventoryDisplay) => {
+        inventoryBox.append(inventoryDisplay)
+    })
+}
 
 function findCategory(item) {
     if (item.item_name.includes("Conjured")) {
