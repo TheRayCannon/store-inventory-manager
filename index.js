@@ -40,6 +40,7 @@ mapIt(stock);
 addEventListener("submit", event => {
     event.preventDefault()
     const formData = new FormData(event.target)
+    const reportDate = formData.get("date")
     const newItem = {
         item_name: formData.get("item_name"),
         sellBy: formData.get("sell_in"),
@@ -49,6 +50,7 @@ addEventListener("submit", event => {
 
     stock = [...stock, newItem]
     findCategory(newItem)
+    qualityCheck(newItem)
     mapIt(stock)
     return newItem
 });
@@ -65,6 +67,19 @@ itemNameInput.addEventListener("input", () => {
         qualityChecks.min = 0
     }
 })
+
+function qualityCheck(item) {
+    const quality = item.quality
+    if (quality < 0) {
+        quality = 0
+    } else if (quality > 50 && item.category != "Sulfurs") {
+        quality = 50
+    } else {
+        return quality
+    }
+}
+
+
 
 function mapIt(stock) {
     inventoryBox.innerHTML = ``
