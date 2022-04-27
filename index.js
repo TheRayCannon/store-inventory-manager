@@ -32,7 +32,6 @@ let stock = [{
     category: "Conjured"
 }]
 
-
 function mapIt(stock) {
     inventoryBox.innerHTML = ``
     stock.map(items => {
@@ -43,32 +42,13 @@ function mapIt(stock) {
  <p>Quality:${items.quality}</p>
  <p>Category:${items.category}</p>
 `
-        console.log(categorySet(items))
         return inventoryDisplay
     }).forEach((inventoryDisplay) => {
         inventoryBox.append(inventoryDisplay)
     })
 }
 
-
 mapIt(stock);
-
-
-function categorySet(item) {
-    if (item.item === "Conjured") {
-        item.category = "conjured"
-    } else if (item.item === "Aged Brie") {
-        item.category = "Aged Brie"
-    } else if (item.item === "Backstage passes") {
-        item.category = "Backstage passes"
-    } else if (item.item === "Sulfuras") {
-        item.category = "Sulfuras"
-    } else {
-        item.category = "none"
-    }
-    return item
-}
-
 
 addEventListener("submit", event => {
     event.preventDefault()
@@ -77,8 +57,24 @@ addEventListener("submit", event => {
         item: formData.get("item"),
         sellBy: formData.get("sell_in"),
         quality: formData.get("quality"),
-
     }
+    findCategory(newItem)
     stock = [...stock, newItem]
     mapIt(stock)
+    return newItem
+
 });
+
+function findCategory(item) {
+    if (item.item.includes("Conjured")) {
+        item.category = "conjured"
+    } else if (item.item.includes("Aged Brie")) {
+        item.category = "Aged Brie"
+    } else if (item.item.includes("Backstage passes")) {
+        item.category = "Backstage passes"
+    } else if (item.item.includes("Sulfuras")) {
+        item.category = "Sulfuras"
+    } else {
+        item.category = "none"
+    }
+}
