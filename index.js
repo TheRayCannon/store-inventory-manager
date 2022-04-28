@@ -1,4 +1,4 @@
-const form = document.querySelector("form")
+const form = document.querySelector(".entry")
 const inventoryBox = document.querySelector(".inventoryBox")
 const itemNameInput = document.querySelector("#item_name")
 
@@ -40,7 +40,6 @@ mapIt(stock);
 addEventListener("submit", event => {
     event.preventDefault()
     const formData = new FormData(event.target)
-    const reportDate = formData.get("date")
     const newItem = {
         item_name: formData.get("item_name"),
         sellBy: formData.get("sell_in"),
@@ -80,7 +79,6 @@ function qualityCheck(item) {
 }
 
 
-
 function mapIt(stock) {
     inventoryBox.innerHTML = ``
     stock.map(items => {
@@ -110,3 +108,18 @@ function findCategory(item) {
         item.category = "none"
     }
 }
+
+function updateQuality(stock) {
+    for (let i = 0; i < stock.length; i++) {
+        if (!stock[i].item_name.includes("Aged Brie") &&
+            !stock[i].item_name.includes("Backstage passes")
+        ) {
+            if (!stock[i].item_name.includes("Sulfuras")) {
+                stock[i].quality = stock[i].quality - 1;
+            }
+        }
+    }
+    console.log(stock)
+}
+
+updateQuality(stock);
