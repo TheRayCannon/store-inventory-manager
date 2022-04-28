@@ -11,24 +11,27 @@
 </head>
 
 <body>
-    <form class="entry">
-        <label for="item_name"> Enter Item Name</label>
-        <input type="text" id="item_name" name="item_name">
-        <label for="sell_in">Sell in X days</label>
-        <input type="number" name="sell_in" id="sell_in">
-        <label for="quality" min="0">quality</label>
-        <input type="number" name="quality" id="quality" class="quality" min="0" required>
-        <label for="date_added">Date added to inventory</label>
-        <input type="date" name="date_added" id="date_added">
-        <input type="submit" value="submit">
-    </form>
+    <h1>Inventory Management: Gilded Rose</h1>
+    <div class="wrapper">
+        <form class="entry">
+            <label for="item_name"> Enter Item Name </label>
+            <input type="text" id="item_name" name="item_name" required>
+            <label for="sell_in"> Sell in X days </label>
+            <input type="number" name="sell_in" id="sell_in" required>
+            <label for="quality" min="0">quality</label>
+            <input type="number" name="quality" id="quality" class="quality" min="0" required>
+            <input type="submit" value="submit">
+        </form>
+        <button class="EOD">EOD</button>
+    </div>
 
-    <button class="EOD">EOD</button>
-    <div class="inventoryBox"></div>
+    <div class="report">
+
+        <div class="inventoryBox"></div>
 
 
 
-
+    </div>
 </body>
 
 </html>

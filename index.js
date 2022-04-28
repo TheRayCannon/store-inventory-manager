@@ -43,8 +43,7 @@ addEventListener("submit", event => {
     const newItem = {
         item_name: formData.get("item_name"),
         sellBy: formData.get("sell_in"),
-        quality: formData.get("quality"),
-        added: formData.get("date"),
+        quality: formData.get("quality")
     }
 
     stock = [...stock, newItem]
@@ -59,8 +58,8 @@ const changeDay = document.querySelector(".EOD")
 
 changeDay.addEventListener("click", () => {
     stock.forEach(Object => { Object.sellBy - 1 })
-    updateQuality(stock)
     qualityCheck(stock)
+    updateQuality(stock)
     sellByCheck(stock)
     mapIt(stock)
     console.log(stock)
@@ -82,9 +81,9 @@ itemNameInput.addEventListener("input", () => {
 function qualityCheck(stock) {
     const quality = stock.quality
     if (quality < 0) {
-        quality = 0
+        return quality = 0
     } else if (quality > 50 && item.category != "Sulfurs") {
-        quality = 50
+        return quality = 50
     } else {
         return quality
     }
@@ -105,10 +104,10 @@ function mapIt(stock) {
     stock.map(items => {
         const inventoryDisplay = document.createElement("div")
         inventoryDisplay.innerHTML = `
- <h3>Item:${items.item_name}</h3>
- <p>Sell in ${sellByCheck(items)} Days</p>
- <p>Quality:${items.quality}</p>
- <p>Category:${items.category}</p>
+ <h3>Item: ${items.item_name}</h3>
+ <p>Sell in  ${sellByCheck(items)} Days</p>
+ <p>Quality: ${items.quality}</p>
+ <p>Category: ${items.category}</p>
 `
         return inventoryDisplay
     }).forEach((inventoryDisplay) => {
@@ -132,6 +131,7 @@ function findCategory(item) {
 
 
 
+
 function updateQuality(stock) {
     for (let i = 0; i < stock.length; i++) {
         if (!stock[i].item_name.includes("Aged Brie") &&
@@ -145,15 +145,15 @@ function updateQuality(stock) {
                 stock[i].quality = stock[i].quality + 1;
 
                 if (stock[i].item_name.includes("Backstage passes")) {
-                    if (stock[i].sellBy <= 10) {
+                    if (stock[i].sellBy <= 10 && stock[i].sellBy > 5) {
                         if (stock[i].quality < 50) {
-                            stock[i].quality = stock[i].quality + 1;
+                            stock[i].quality = stock[i].quality + 2;
                         }
                     }
 
-                    if (stock[i].sellBy < 6) {
+                    if (stock[i].sellBy <= 5 && stock[i].sellBy >= 1) {
                         if (stock[i].quality < 50) {
-                            stock[i].quality = stock[i].quality + 1;
+                            stock[i].quality = stock[i].quality + 3;
                         }
                     }
                 }

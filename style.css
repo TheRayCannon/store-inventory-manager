@@ -1,8 +1,24 @@
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+body {
+    font-family: 'Bebas Neue';
+    background-color: bisque;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+body h1 {
+    color: rgb(64, 199, 223);
+    display: flex;
+    justify-content: center;
+}
+
 form {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: 2em 2em 2em 2em;
     width: 400px;
+    justify-content: center;
 }
 
 input,
@@ -11,4 +27,37 @@ select {
     width: 150px;
     padding: 0px;
     margin: 5px;
+}
+
+.wrapper {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-left: 80px;
+}
+
+.report {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin: 20px;
+    padding: 15px;
+}
+
+.inventoryBox {
+    background-color: rgb(255, 255, 255);
+    border-color: rgb(64, 199, 223);
+    border-style: double;
+    border-width: 15px;
+    font-size: larger;
+    padding: 15px;
+}
+
+.EOD {
+    height: 50px;
+    width: 100px;
+    margin: 40px;
+    border-radius: 50%;
+    border-width: 8px;
+    background-color: rgb(64, 199, 223);
 }
