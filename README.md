@@ -1,4 +1,4 @@
-url : https://theraycannon.github.io/store-inventory-manager/
+deployed url : https://theraycannon.github.io/store-inventory-manager/
 
 # Store Inventory Manager
 
