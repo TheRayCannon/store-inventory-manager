@@ -55,6 +55,18 @@ addEventListener("submit", event => {
 });
 
 
+const changeDay = document.querySelector(".EOD")
+
+changeDay.addEventListener("click", () => {
+    stock.forEach(Object => { Object.sellBy - 1 })
+    updateQuality(stock)
+    qualityCheck(stock)
+    sellByCheck(stock)
+    mapIt(stock)
+    console.log(stock)
+})
+
+
 itemNameInput.addEventListener("input", () => {
     const qualityChecks = form.querySelector(".quality")
     if (itemNameInput.value.includes("Sulfuras")) {
@@ -67,14 +79,23 @@ itemNameInput.addEventListener("input", () => {
     }
 })
 
-function qualityCheck(item) {
-    const quality = item.quality
+function qualityCheck(stock) {
+    const quality = stock.quality
     if (quality < 0) {
         quality = 0
     } else if (quality > 50 && item.category != "Sulfurs") {
         quality = 50
     } else {
         return quality
+    }
+}
+
+function sellByCheck(stock) {
+    let sellCheck = stock.sellBy
+    if (sellCheck < 0) {
+        return sellCheck = 0
+    } else {
+        return sellCheck
     }
 }
 
@@ -85,7 +106,7 @@ function mapIt(stock) {
         const inventoryDisplay = document.createElement("div")
         inventoryDisplay.innerHTML = `
  <h3>Item:${items.item_name}</h3>
- <p>Sell in ${items.sellBy} Days</p>
+ <p>Sell in ${sellByCheck(items)} Days</p>
  <p>Quality:${items.quality}</p>
  <p>Category:${items.category}</p>
 `
@@ -109,6 +130,8 @@ function findCategory(item) {
     }
 }
 
+
+
 function updateQuality(stock) {
     for (let i = 0; i < stock.length; i++) {
         if (!stock[i].item_name.includes("Aged Brie") &&
@@ -117,9 +140,46 @@ function updateQuality(stock) {
             if (!stock[i].item_name.includes("Sulfuras")) {
                 stock[i].quality = stock[i].quality - 1;
             }
+        } else {
+            if (stock[i].quality < 50) {
+                stock[i].quality = stock[i].quality + 1;
+
+                if (stock[i].item_name.includes("Backstage passes")) {
+                    if (stock[i].sellBy <= 10) {
+                        if (stock[i].quality < 50) {
+                            stock[i].quality = stock[i].quality + 1;
+                        }
+                    }
+
+                    if (stock[i].sellBy < 6) {
+                        if (stock[i].quality < 50) {
+                            stock[i].quality = stock[i].quality + 1;
+                        }
+                    }
+                }
+            }
+        }
+
+        if (!stock[i].item_name.includes("Sulfuras")) {
+            stock[i].sellBy = stock[i].sellBy - 1;
+        }
+
+        if (stock[i].sellBy < 0) {
+            if (!stock[i].item_name.includes("Aged Brie")) {
+                if (!stock[i].item_name.includes("Bakcstage passes")) {
+                    if (stock[i].quality > 0) {
+                        if (!stock[i].item_name.includes("Sulfuras")) {
+                            stock[i].quality = stock[i].quality - 1;
+                        }
+                    }
+                } else {
+                    stock[i].quality = stock[i].quality - stock[i].quality
+                }
+            } else {
+                if (stock[i].quality < 50) {
+                    stock[i].quality = stock[i].quality + 1;
+                }
+            }
         }
     }
-    console.log(stock)
 }
-
-updateQuality(stock);
