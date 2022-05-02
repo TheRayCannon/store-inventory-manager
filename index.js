@@ -1,6 +1,7 @@
 const form = document.querySelector(".entry")
 const inventoryBox = document.querySelector(".inventoryBox")
 const itemNameInput = document.querySelector("#item_name")
+const changeDay = document.querySelector(".EOD")
 
 
 let stock = [{
@@ -35,9 +36,9 @@ let stock = [{
     category: "Conjured"
 }]
 
-mapIt(stock);
+displayStock(stock);
 
-addEventListener("submit", event => {
+form.addEventListener("submit", event => {
     event.preventDefault()
     const formData = new FormData(event.target)
     const newItem = {
@@ -48,44 +49,68 @@ addEventListener("submit", event => {
 
     stock = [...stock, newItem]
     findCategory(newItem)
-    qualityCheck(newItem)
-    mapIt(stock)
+    displayStock(stock)
     return newItem
 });
 
 
-const changeDay = document.querySelector(".EOD")
 
 changeDay.addEventListener("click", () => {
-    stock.forEach(Object => { Object.sellBy - 1 })
-    qualityCheck(stock)
+    stock.forEach(item => item.sellBy = item.sellBy - 1)
     updateQuality(stock)
-    sellByCheck(stock)
-    mapIt(stock)
-    console.log(stock)
+    displayStock(stock)
 })
 
 
-itemNameInput.addEventListener("input", () => {
-    const qualityChecks = form.querySelector(".quality")
-    if (itemNameInput.value.includes("Sulfuras")) {
-        qualityChecks.value = 80;
-        qualityChecks.max = 80;
-        qualityChecks.min = 80;
-    } else {
-        qualityChecks.max = 50
-        qualityChecks.min = 0
+function updateQuality(stock) {
+    for (let i = 0; i < stock.length; i++) {
+        if (!stock[i].item_name.includes("Backstage passes") &&
+            !stock[i].item_name.includes("Sulfuras") &&
+            !stock[i].item_name.includes("Aged Brie") &&
+            !stock[i].item_name.includes("Conjured")
+        ) {
+            stock[i].quality = stock[i].quality - 1
+        } else if (stock[i].item_name.includes("Backstage passes")) {
+            ticketScam()
+        } else if (stock[i].item_name.includes("Aged Brie")) {
+            stock[i].quality = stock[i].quality + 1
+        } else if (stock[i].item_name.includes("Conjured")) {
+            if (stock[i].quality <= 0) {
+                stock[i].quality = 0
+            } else {
+                stock[i].quality = stock[i].quality - 2
+            }
+        } else if (stock[i].item_name.includes("Sulfuras")) {
+            stock[i].quality = 80
+        }
     }
-})
+}
 
-function qualityCheck(stock) {
-    const quality = stock.quality
-    if (quality < 0) {
-        return quality = 0
-    } else if (quality > 50 && item.category != "Sulfurs") {
-        return quality = 50
+function ticketScam() {
+    for (let i = 0; i < stock.length; i++) {
+        if (stock[i].sellBy < 10 && stock[i].sellBy > 5) {
+            stock[i].quality = stock[i].quality + 2
+        } else if (stock[i].sellBy <= 5 && stock[i].sellBy >= 1) {
+            stock[i].quality = stock[i].quality + 3
+        } else if (stock[i].sellBy < 1) {
+            stock[i].quality = stock[i].quality * 0
+        } else {
+            stock[i].quality = stock[i].quality + 1
+        }
+    }
+}
+
+
+
+
+function qualityFloor(stock) {
+    let qualityCheck = stock.quality
+    if (qualityCheck < 0) {
+        return qualityCheck = 0
+    } else if (qualityCheck > 50 && !stock.item_name.includes("Sulfuras")) {
+        return qualityCheck = 50
     } else {
-        return quality
+        return qualityCheck
     }
 }
 
@@ -99,14 +124,14 @@ function sellByCheck(stock) {
 }
 
 
-function mapIt(stock) {
+function displayStock(stock) {
     inventoryBox.innerHTML = ``
     stock.map(items => {
         const inventoryDisplay = document.createElement("div")
         inventoryDisplay.innerHTML = `
  <h3>Item: ${items.item_name}</h3>
  <p>Sell in  ${sellByCheck(items)} Days</p>
- <p>Quality: ${items.quality}</p>
+ <p>Quality: ${qualityFloor(items)}</p>
  <p>Category: ${items.category}</p>
 `
         return inventoryDisplay
@@ -126,60 +151,5 @@ function findCategory(item) {
         item.category = "Sulfuras"
     } else {
         item.category = "none"
-    }
-}
-
-
-
-
-function updateQuality(stock) {
-    for (let i = 0; i < stock.length; i++) {
-        if (!stock[i].item_name.includes("Aged Brie") &&
-            !stock[i].item_name.includes("Backstage passes")
-        ) {
-            if (!stock[i].item_name.includes("Sulfuras")) {
-                stock[i].quality = stock[i].quality - 1;
-            }
-        } else {
-            if (stock[i].quality < 50) {
-                stock[i].quality = stock[i].quality + 1;
-
-                if (stock[i].item_name.includes("Backstage passes")) {
-                    if (stock[i].sellBy <= 10 && stock[i].sellBy > 5) {
-                        if (stock[i].quality < 50) {
-                            stock[i].quality = stock[i].quality + 2;
-                        }
-                    }
-
-                    if (stock[i].sellBy <= 5 && stock[i].sellBy >= 1) {
-                        if (stock[i].quality < 50) {
-                            stock[i].quality = stock[i].quality + 3;
-                        }
-                    }
-                }
-            }
-        }
-
-        if (!stock[i].item_name.includes("Sulfuras")) {
-            stock[i].sellBy = stock[i].sellBy - 1;
-        }
-
-        if (stock[i].sellBy < 0) {
-            if (!stock[i].item_name.includes("Aged Brie")) {
-                if (!stock[i].item_name.includes("Bakcstage passes")) {
-                    if (stock[i].quality > 0) {
-                        if (!stock[i].item_name.includes("Sulfuras")) {
-                            stock[i].quality = stock[i].quality - 1;
-                        }
-                    }
-                } else {
-                    stock[i].quality = stock[i].quality - stock[i].quality
-                }
-            } else {
-                if (stock[i].quality < 50) {
-                    stock[i].quality = stock[i].quality + 1;
-                }
-            }
-        }
     }
 }
