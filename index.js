@@ -46,7 +46,6 @@ form.addEventListener("submit", event => {
         sellBy: formData.get("sell_in"),
         quality: formData.get("quality")
     }
-
     stock = [...stock, newItem]
     findCategory(newItem)
     displayStock(stock)
@@ -70,40 +69,31 @@ function updateQuality(stock) {
             !stock[i].item_name.includes("Conjured")
         ) {
             stock[i].quality = stock[i].quality - 1
+        } else if (stock[i].item_name.includes("Backstage passes") && stock[i].sellBy < 10 && stock[i].sellBy > 5) {
+
+            stock[i].quality = stock[i].quality + 2
+        } else if (stock[i].item_name.includes("Backstage passes") && stock[i].sellBy <= 5 && stock[i].sellBy >= 1) {
+            stock[i].quality = stock[i].quality + 3
+        } else if (stock[i].item_name.includes("Backstage passes") && stock[i].sellBy < 1) {
+            stock[i].quality = stock[i].quality * 0
         } else if (stock[i].item_name.includes("Backstage passes")) {
-            if (stock[i].sellBy < 10 && stock[i].sellBy > 5) {
-                stock[i].quality = stock[i].quality + 2
-            } else if (stock[i].sellBy <= 5 && stock[i].sellBy >= 1) {
-                stock[i].quality = stock[i].quality + 3
-            } else if (stock[i].sellBy < 1) {
-                stock[i].quality = stock[i].quality * 0
-            } else {
-                stock[i].quality = stock[i].quality + 1
-            }
+            stock[i].quality = stock[i].quality + 1
         } else if (stock[i].item_name.includes("Aged Brie")) {
             stock[i].quality = stock[i].quality + 1
         } else if (stock[i].item_name.includes("Conjured")) {
-            if (stock[i].quality <= 0) {
-                stock[i].quality = 0
-            } else {
-                stock[i].quality = stock[i].quality - 2
-            }
-        } else if (stock[i].item_name.includes("Sulfuras")) {
-            stock[i].quality = 80
+            stock[i].quality = stock[i].quality - 2
+        } else if (stock[i].item_name.includes("Sulfuras") && stock[i].quality != 80) {
+            return stock[i].quality = 80
         }
     }
 }
-
-
-
-
-
 
 function qualityFloor(stock) {
     let qualityCheck = stock.quality
     if (qualityCheck < 0) {
         return qualityCheck = 0
-    } else if (qualityCheck > 50 && !stock.item_name.includes("Sulfuras")) {
+    } else if (qualityCheck > 51 &&
+        !stock.item_name.includes("Sulfuras")) {
         return qualityCheck = 50
     } else {
         return qualityCheck
@@ -118,7 +108,6 @@ function sellByCheck(stock) {
         return sellCheck
     }
 }
-
 
 function displayStock(stock) {
     inventoryBox.innerHTML = ``
@@ -145,6 +134,7 @@ function findCategory(item) {
         item.category = "Backstage passes"
     } else if (item.item_name.includes("Sulfuras")) {
         item.category = "Sulfuras"
+        item.quality = 80
     } else {
         item.category = "none"
     }
