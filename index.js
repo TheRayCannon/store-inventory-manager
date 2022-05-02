@@ -71,7 +71,15 @@ function updateQuality(stock) {
         ) {
             stock[i].quality = stock[i].quality - 1
         } else if (stock[i].item_name.includes("Backstage passes")) {
-            ticketScam()
+            if (stock[i].sellBy < 10 && stock[i].sellBy > 5) {
+                stock[i].quality = stock[i].quality + 2
+            } else if (stock[i].sellBy <= 5 && stock[i].sellBy >= 1) {
+                stock[i].quality = stock[i].quality + 3
+            } else if (stock[i].sellBy < 1) {
+                stock[i].quality = stock[i].quality * 0
+            } else {
+                stock[i].quality = stock[i].quality + 1
+            }
         } else if (stock[i].item_name.includes("Aged Brie")) {
             stock[i].quality = stock[i].quality + 1
         } else if (stock[i].item_name.includes("Conjured")) {
@@ -86,19 +94,7 @@ function updateQuality(stock) {
     }
 }
 
-function ticketScam() {
-    for (let i = 0; i < stock.length; i++) {
-        if (stock[i].sellBy < 10 && stock[i].sellBy > 5) {
-            stock[i].quality = stock[i].quality + 2
-        } else if (stock[i].sellBy <= 5 && stock[i].sellBy >= 1) {
-            stock[i].quality = stock[i].quality + 3
-        } else if (stock[i].sellBy < 1) {
-            stock[i].quality = stock[i].quality * 0
-        } else {
-            stock[i].quality = stock[i].quality + 1
-        }
-    }
-}
+
 
 
 
